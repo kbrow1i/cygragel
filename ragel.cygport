@@ -1,0 +1,60 @@
+NAME="ragel"
+VERSION=7.0.0.11
+RELEASE=1
+
+inherit vim
+
+HOMEPAGE="http://www.colm.net/open-source/${NAME}"
+SRC_URI="https://www.colm.net/files/${NAME}/${NAME}-${VERSION}.tar.gz"
+PATCH_URI="ragel-no_undefined.patch"
+
+CATEGORY="Devel"
+SUMMARY="Finite state machine compiler"
+DESCRIPTION="Ragel compiles executable finite state machines from regular
+languages.  Ragel targets C, C++, and ASM.  Ragel state machines can
+not only recognize byte sequences as regular expression machines do,
+but can also execute code at arbitrary points in the recognition of a
+regular language.  Code embedding is done using inline operators that
+do not disrupt the regular language syntax."
+
+PKG_NAMES="ragel libragel0 libragel-devel"
+
+ragel_CONTENTS="usr/bin/*.exe usr/share"
+
+libragel0_SUMMARY="${SUMMARY} (runtime)"
+libragel0_CONTENTS="usr/bin/cyg*-0.dll"
+
+libragel_devel_SUMMARY="${SUMMARY} (devel)"
+libragel_devel_CONTENTS="usr/include usr/lib"
+
+DEPEND="colm libcolm-devel"
+
+# The build of a fully-functional ragel package requires some version
+# of ragel.exe.  Until that's available, we can build and install a
+# less functional package for bootstrapping.
+
+# The following line should be commented out for the initial build,
+# and uncommented after the bootstrap ragel is installed.
+
+# bootstrap=1
+if defined bootstrap
+then
+    DEPEND+=" ragel kelbt"
+fi
+
+src_compile() {
+    cd ${S}
+    cygautoreconf
+    lndirs
+    cd ${B}
+    cygconf
+    cygmake
+}
+
+src_install() {
+    cd ${B}
+    cyginstall
+    cd ${S}
+    viminto syntax
+    dovim ragel.vim
+}
