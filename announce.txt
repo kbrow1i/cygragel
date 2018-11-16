@@ -1,0 +1,20 @@
+Subject: ragel 7.0.0.11-2
+Date: Fri, 16 Nov 2018 00:02:31 +0000
+Message-Id: <announce.20181115190131.17236-1-kbrown@cornell.edu>
+The following packages have been uploaded to the Cygwin distribution:
+
+* ragel-7.0.0.11-2
+* libragel0-7.0.0.11-2
+* libragel-devel-7.0.0.11-2
+
+Ragel compiles executable finite state machines from regular
+languages.  Ragel targets C, C++, and ASM.  Ragel state machines can
+not only recognize byte sequences as regular expression machines do,
+but can also execute code at arbitrary points in the recognition of a
+regular language.  Code embedding is done using inline operators that
+do not disrupt the regular language syntax.
+
+This is a new package in the Cygwin distribution.
+
+Ken Brown
+Cygwin's ragel maintainer
