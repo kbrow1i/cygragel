@@ -1,6 +1,6 @@
 NAME="ragel"
 VERSION=7.0.0.11
-RELEASE=1
+RELEASE=2
 
 inherit vim
 
@@ -36,7 +36,7 @@ DEPEND="colm libcolm-devel"
 # The following line should be commented out for the initial build,
 # and uncommented after the bootstrap ragel is installed.
 
-# bootstrap=1
+bootstrap=1
 if defined bootstrap
 then
     DEPEND+=" ragel kelbt"
