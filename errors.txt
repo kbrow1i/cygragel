@@ -1,0 +1,492 @@
+# Initial build, no ragel installed.
+$ ./configure --enable-shared --disable-static && make
+[...]
+/bin/sh ../libtool  --tag=CXX   --mode=link g++  -Wall -g   -o libfsm.la -rpath /usr/local/lib libfsm_la-idbase.lo libfsm_la-fsmstate.lo libfsm_la-fsmbase.lo libfsm_la-fsmattach.lo libfsm_la-fsmmin.lo libfsm_la-fsmgraph.lo libfsm_la-fsmap.lo libfsm_la-fsmcond.lo libfsm_la-fsmnfa.lo libfsm_la-common.lo libfsm_la-redfsm.lo libfsm_la-gendata.lo libfsm_la-allocgen.lo libfsm_la-codegen.lo libfsm_la-actexp.lo libfsm_la-binvar.lo libfsm_la-tables.lo libfsm_la-tabgoto.lo libfsm_la-tabvar.lo libfsm_la-binary.lo libfsm_la-bingoto.lo libfsm_la-actloop.lo libfsm_la-flat.lo libfsm_la-flatgoto.lo libfsm_la-flatvar.lo libfsm_la-goto.lo libfsm_la-gotoloop.lo libfsm_la-gotoexp.lo libfsm_la-ipgoto.lo libfsm_la-dot.lo libfsm_la-asm.lo   
+libtool:   error: can't build x86_64-unknown-cygwin shared library unless -no-undefined is specified
+
+# Add "libfsm_la_LDFLAGS = -no-undefined" to src/Makefile.am
+$ make
+[...]
+/bin/sh ../libtool  --tag=CXX   --mode=link g++  -Wall -g   -o libragel.la -rpath /usr/local/lib libragel_la-parsetree.lo libragel_la-parsedata.lo libragel_la-inputdata.lo libragel_la-load.lo libragel_la-reducer.lo  
+libtool:   error: can't build x86_64-unknown-cygwin shared library unless -no-undefined is specified
+
+# Add "libragel_la_LDFLAGS = -no-undefined" to src/Makefile.am
+$ make
+[...]
+libtool: link: g++ -shared -nostdlib /usr/lib/gcc/x86_64-pc-cygwin/7.3.0/crtbeginS.o  .libs/libragel_la-parsetree.o .libs/libragel_la-parsedata.o .libs/libragel_la-inputdata.o .libs/libragel_la-load.o .libs/libragel_la-reducer.o   -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0 -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../../../x86_64-pc-cygwin/lib/../lib -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../../../x86_64-pc-cygwin/lib -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../.. -lstdc++ -lgcc_s -lgcc -lcygwin -ladvapi32 -lshell32 -luser32 -lkernel32 -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-cygwin/7.3.0/crtend.o  -g   -o .libs/cygragel-0.dll -Wl,--enable-auto-image-base -Xlinker --out-implib -Xlinker .libs/libragel.dll.a
+.libs/libragel_la-parsetree.o: In function `checkLitOptions(InputData*, InputLoc const&, char const*, int, bool&)':
+/home/kbrown/src/ragel/src/parsetree.cc:49: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:49:(.text+0x71): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-parsetree.o: In function `VarDef::walk(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:144: undefined reference to `FsmAp::transferErrorActions(StateAp*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:144:(.text+0x572): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `FsmAp::transferErrorActions(StateAp*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:153: undefined reference to `FsmAp::epsilonOp(FsmAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:153:(.text+0x5d8): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `FsmAp::epsilonOp(FsmAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:164: undefined reference to `FsmAp::setEntry(int, StateAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:164:(.text+0x652): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `FsmAp::setEntry(int, StateAp*)'
+.libs/libragel_la-parsetree.o: In function `LongestMatch::restart(FsmAp*, TransAp*)':
+/home/kbrown/src/ragel/src/parsetree.cc:358: undefined reference to `FsmAp::detachTrans(StateAp*, StateAp*, TransDataAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:358:(.text+0x1583): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `FsmAp::detachTrans(StateAp*, StateAp*, TransDataAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:359: undefined reference to `FsmAp::attachTrans(StateAp*, StateAp*, TransDataAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:359:(.text+0x15b3): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `FsmAp::attachTrans(StateAp*, StateAp*, TransDataAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:364: undefined reference to `FsmAp::detachTrans(StateAp*, StateAp*, CondAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:364:(.text+0x1630): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `FsmAp::detachTrans(StateAp*, StateAp*, CondAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:365: undefined reference to `FsmAp::attachTrans(StateAp*, StateAp*, CondAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:365:(.text+0x1660): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `FsmAp::attachTrans(StateAp*, StateAp*, CondAp*)'
+.libs/libragel_la-parsetree.o: In function `LongestMatch::runLongestMatch(ParseData*, FsmAp*)':
+/home/kbrown/src/ragel/src/parsetree.cc:372: undefined reference to `FsmAp::markReachableFromHereStopFinal(StateAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:372:(.text+0x16c2): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `FsmAp::markReachableFromHereStopFinal(StateAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:398: undefined reference to `FsmAp::markReachableFromHereStopFinal(StateAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:398:(.text+0x189c): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `FsmAp::markReachableFromHereStopFinal(StateAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:421: undefined reference to `FsmAp::markReachableFromHereStopFinal(StateAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:421:(.text+0x1a23): additional relocation overflows omitted from the output
+/home/kbrown/src/ragel/src/parsetree.cc:441: undefined reference to `FsmAp::markReachableFromHereStopFinal(StateAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:451: undefined reference to `FsmAp::isolateStartState(FsmAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:453: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:454: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:462: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:494: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:506: undefined reference to `FsmAp::markReachableFromHereStopFinal(StateAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:523: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:529: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:554: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:566: undefined reference to `FsmAp::markReachableFromHereStopFinal(StateAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:583: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:589: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:611: undefined reference to `FsmAp::setErrorTarget(StateAp*, StateAp*, int*, Action**, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:613: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:618: undefined reference to `FsmAp::setErrorTarget(StateAp*, StateAp*, int*, Action**, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:620: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:633: undefined reference to `FsmAp::setErrorTarget(StateAp*, StateAp*, int*, Action**, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:635: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:641: undefined reference to `FsmAp::setFinState(StateAp*)'
+.libs/libragel_la-parsetree.o: In function `LongestMatch::transferScannerLeavingActions(FsmAp*)':
+/home/kbrown/src/ragel/src/parsetree.cc:648: undefined reference to `FsmAp::setErrorActions(StateAp*, ActionTable const&)'
+.libs/libragel_la-parsetree.o: In function `LongestMatch::walk(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:667: undefined reference to `FsmAp::longMatchAction(int, LongestMatchPart*)'
+/home/kbrown/src/ragel/src/parsetree.cc:681: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+.libs/libragel_la-parsetree.o: In function `NfaUnion::walk(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:706: undefined reference to `FsmGbl::stats()'
+/home/kbrown/src/ragel/src/parsetree.cc:716: undefined reference to `FsmAp::~FsmAp()'
+/home/kbrown/src/ragel/src/parsetree.cc:724: undefined reference to `FsmGbl::stats()'
+/home/kbrown/src/ragel/src/parsetree.cc:727: undefined reference to `FsmAp::nfaUnion(Vector<NfaRound, ResizeExpn> const&, FsmAp**, int, std::ostream&, bool)'
+.libs/libragel_la-parsetree.o: In function `MachineDef::walk(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:751: undefined reference to `FsmAp::lambdaFsm(FsmCtx*)'
+.libs/libragel_la-parsetree.o: In function `Join::walkJoin(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:862: undefined reference to `FsmAp::joinOp(FsmAp*, int, int, FsmAp**, int)'
+.libs/libragel_la-parsetree.o: In function `Join::resolveNameRefs(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:915: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:927: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-parsetree.o: In function `Expression::walk(ParseData*, bool)':
+/home/kbrown/src/ragel/src/parsetree.cc:968: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:986: undefined reference to `FsmAp::intersectOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:1004: undefined reference to `FsmAp::subtractOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:1016: undefined reference to `FsmAp::dotStarFsm(FsmCtx*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1017: undefined reference to `FsmAp::dotStarFsm(FsmCtx*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1024: undefined reference to `FsmAp::concatOp(FsmAp*, FsmAp*, bool, BstSet<StateAp*, CmpOrd<StateAp*>, ResizeExpn>*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:1028: undefined reference to `FsmAp::concatOp(FsmAp*, FsmAp*, bool, BstSet<StateAp*, CmpOrd<StateAp*>, ResizeExpn>*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:1033: undefined reference to `FsmAp::subtractOp(FsmAp*, FsmAp*, bool)'
+.libs/libragel_la-parsetree.o: In function `Term::walk(ParseData*, bool)':
+/home/kbrown/src/ragel/src/parsetree.cc:1110: undefined reference to `FsmAp::~FsmAp()'
+/home/kbrown/src/ragel/src/parsetree.cc:1115: undefined reference to `FsmAp::concatOp(FsmAp*, FsmAp*, bool, BstSet<StateAp*, CmpOrd<StateAp*>, ResizeExpn>*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:1130: undefined reference to `FsmAp::~FsmAp()'
+/home/kbrown/src/ragel/src/parsetree.cc:1135: undefined reference to `FsmAp::rightStartConcatOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:1150: undefined reference to `FsmAp::~FsmAp()'
+/home/kbrown/src/ragel/src/parsetree.cc:1159: undefined reference to `FsmAp::allTransPrior(int, PriorDesc*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1165: undefined reference to `FsmAp::finishFsmPrior(int, PriorDesc*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1171: undefined reference to `PriorTable::setPrior(int, PriorDesc*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1176: undefined reference to `FsmAp::concatOp(FsmAp*, FsmAp*, bool, BstSet<StateAp*, CmpOrd<StateAp*>, ResizeExpn>*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:1191: undefined reference to `FsmAp::~FsmAp()'
+/home/kbrown/src/ragel/src/parsetree.cc:1199: undefined reference to `FsmAp::allTransPrior(int, PriorDesc*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1208: undefined reference to `FsmAp::startFsmPrior(int, PriorDesc*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1211: undefined reference to `FsmAp::concatOp(FsmAp*, FsmAp*, bool, BstSet<StateAp*, CmpOrd<StateAp*>, ResizeExpn>*, bool)'
+.libs/libragel_la-parsetree.o: In function `FactorWithAug::assignActions(ParseData*, FsmAp*, int*)':
+/home/kbrown/src/ragel/src/parsetree.cc:1275: undefined reference to `FsmAp::startFsmAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1278: undefined reference to `FsmAp::allTransAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1281: undefined reference to `FsmAp::finishFsmAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1284: undefined reference to `FsmAp::leaveFsmAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1289: undefined reference to `FsmAp::startErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1292: undefined reference to `FsmAp::allErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1295: undefined reference to `FsmAp::finalErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1298: undefined reference to `FsmAp::notStartErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1301: undefined reference to `FsmAp::notFinalErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1304: undefined reference to `FsmAp::middleErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1309: undefined reference to `FsmAp::startErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1313: undefined reference to `FsmAp::allErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1317: undefined reference to `FsmAp::finalErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1321: undefined reference to `FsmAp::notStartErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1325: undefined reference to `FsmAp::notFinalErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1329: undefined reference to `FsmAp::middleErrorAction(int, Action*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1335: undefined reference to `FsmAp::startEOFAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1338: undefined reference to `FsmAp::allEOFAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1341: undefined reference to `FsmAp::finalEOFAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1344: undefined reference to `FsmAp::notStartEOFAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1347: undefined reference to `FsmAp::notFinalEOFAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1350: undefined reference to `FsmAp::middleEOFAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1355: undefined reference to `FsmAp::startToStateAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1358: undefined reference to `FsmAp::allToStateAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1361: undefined reference to `FsmAp::finalToStateAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1364: undefined reference to `FsmAp::notStartToStateAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1367: undefined reference to `FsmAp::notFinalToStateAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1370: undefined reference to `FsmAp::middleToStateAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1375: undefined reference to `FsmAp::startFromStateAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1378: undefined reference to `FsmAp::allFromStateAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1381: undefined reference to `FsmAp::finalFromStateAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1384: undefined reference to `FsmAp::notStartFromStateAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1387: undefined reference to `FsmAp::notFinalFromStateAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1390: undefined reference to `FsmAp::middleFromStateAction(int, Action*)'
+.libs/libragel_la-parsetree.o: In function `FactorWithAug::assignPriorities(FsmAp*, int*)':
+/home/kbrown/src/ragel/src/parsetree.cc:1407: undefined reference to `FsmAp::startFsmPrior(int, PriorDesc*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1410: undefined reference to `FsmAp::allTransPrior(int, PriorDesc*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1413: undefined reference to `FsmAp::finishFsmPrior(int, PriorDesc*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1416: undefined reference to `FsmAp::leaveFsmPrior(int, PriorDesc*)'
+.libs/libragel_la-parsetree.o: In function `FactorWithAug::assignConditions(FsmAp*)':
+/home/kbrown/src/ragel/src/parsetree.cc:1432: undefined reference to `FsmAp::startFsmCondition(Action*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:1435: undefined reference to `FsmAp::allTransCondition(Action*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:1438: undefined reference to `FsmAp::leaveFsmCondition(Action*, bool)'
+.libs/libragel_la-parsetree.o: In function `FactorWithAug::walk(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:1529: undefined reference to `FsmAp::epsilonTrans(int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1550: undefined reference to `FsmAp::setEntry(int, StateAp*)'
+.libs/libragel_la-parsetree.o: In function `FactorWithAug::resolveNameRefs(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:1617: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1637: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-parsetree.o: In function `FactorWithRep::walk(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:1671: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1673: undefined reference to `FsmAp::unsetFinState(StateAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1676: undefined reference to `FsmAp::starOp(FsmAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1685: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1694: undefined reference to `FsmAp::allTransPrior(int, PriorDesc*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1699: undefined reference to `FsmAp::leaveFsmPrior(int, PriorDesc*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1701: undefined reference to `FsmAp::starOp(FsmAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1709: undefined reference to `FsmAp::questionOp(FsmAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1718: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1722: undefined reference to `FsmAp::plusOp(FsmAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1734: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1739: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1745: undefined reference to `FsmAp::exactRepeatOp(FsmAp*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1757: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1760: undefined reference to `FsmAp::lambdaFsm(FsmCtx*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1765: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1771: undefined reference to `FsmAp::maxRepeatOp(FsmAp*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1780: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1784: undefined reference to `FsmAp::minRepeatOp(FsmAp*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:1789: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1792: undefined reference to `FsmAp::lambdaFsm(FsmCtx*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1803: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1809: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:1814: undefined reference to `FsmAp::rangeRepeatOp(FsmAp*, int, int)'
+.libs/libragel_la-parsetree.o: In function `FactorWithNeg::walk(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:1884: undefined reference to `FsmAp::dotStarFsm(FsmCtx*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1885: undefined reference to `FsmAp::subtractOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:1894: undefined reference to `FsmAp::dotFsm(FsmCtx*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1895: undefined reference to `FsmAp::subtractOp(FsmAp*, FsmAp*, bool)'
+.libs/libragel_la-parsetree.o: In function `Factor::walk(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:1985: undefined reference to `FsmAp::nfaRepeatOp(FsmAp*, Action*, Action*, Action*, Action*, Action*, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:1987: undefined reference to `FsmAp::verifyIntegrity()'
+/home/kbrown/src/ragel/src/parsetree.cc:1996: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:2000: undefined reference to `FsmAp::condStar(FsmAp*, long, Action*, Action*, Action*, Action*)'
+/home/kbrown/src/ragel/src/parsetree.cc:2008: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:2012: undefined reference to `FsmAp::condPlus(FsmAp*, long, Action*, Action*, Action*, Action*)'
+.libs/libragel_la-parsetree.o: In function `Range::walk(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:2080: undefined reference to `FsmAp::checkSingleCharMachine()'
+/home/kbrown/src/ragel/src/parsetree.cc:2081: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:2087: undefined reference to `FsmAp::checkSingleCharMachine()'
+/home/kbrown/src/ragel/src/parsetree.cc:2088: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:2095: undefined reference to `FsmAp::~FsmAp()'
+/home/kbrown/src/ragel/src/parsetree.cc:2096: undefined reference to `FsmAp::~FsmAp()'
+/home/kbrown/src/ragel/src/parsetree.cc:2101: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:2108: undefined reference to `FsmAp::rangeFsmCI(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsetree.cc:2110: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+.libs/libragel_la-parsetree.o: In function `Literal::walk(ParseData*)':
+/home/kbrown/src/ragel/src/parsetree.cc:2133: undefined reference to `FsmAp::concatFsm(FsmCtx*, Key)'
+/home/kbrown/src/ragel/src/parsetree.cc:2147: undefined reference to `FsmAp::concatFsmCI(FsmCtx*, Key*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:2149: undefined reference to `FsmAp::concatFsm(FsmCtx*, Key*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:2157: undefined reference to `FsmAp::concatFsm(FsmCtx*, Key*, int)'
+.libs/libragel_la-parsetree.o: In function `RegExpr::walk(ParseData*, RegExpr*)':
+/home/kbrown/src/ragel/src/parsetree.cc:2190: undefined reference to `FsmAp::concatOp(FsmAp*, FsmAp*, bool, BstSet<StateAp*, CmpOrd<StateAp*>, ResizeExpn>*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:2195: undefined reference to `FsmAp::lambdaFsm(FsmCtx*)'
+.libs/libragel_la-parsetree.o: In function `ReItem::walk(ParseData*, RegExpr*)':
+/home/kbrown/src/ragel/src/parsetree.cc:2230: undefined reference to `FsmAp::concatFsmCI(FsmCtx*, Key*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:2232: undefined reference to `FsmAp::concatFsm(FsmCtx*, Key*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:2238: undefined reference to `FsmAp::dotFsm(FsmCtx*)'
+/home/kbrown/src/ragel/src/parsetree.cc:2245: undefined reference to `FsmAp::lambdaFsm(FsmCtx*)'
+/home/kbrown/src/ragel/src/parsetree.cc:2246: undefined reference to `FsmAp::minimizePartition2()'
+/home/kbrown/src/ragel/src/parsetree.cc:2252: undefined reference to `FsmAp::minimizePartition2()'
+/home/kbrown/src/ragel/src/parsetree.cc:2255: undefined reference to `FsmAp::dotFsm(FsmCtx*)'
+/home/kbrown/src/ragel/src/parsetree.cc:2256: undefined reference to `FsmAp::subtractOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:2258: undefined reference to `FsmAp::minimizePartition2()'
+/home/kbrown/src/ragel/src/parsetree.cc:2266: undefined reference to `FsmGbl::warning(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:2270: undefined reference to `FsmAp::starOp(FsmAp*)'
+/home/kbrown/src/ragel/src/parsetree.cc:2272: undefined reference to `FsmAp::minimizePartition2()'
+.libs/libragel_la-parsetree.o: In function `ReOrBlock::walk(ParseData*, RegExpr*)':
+/home/kbrown/src/ragel/src/parsetree.cc:2304: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+.libs/libragel_la-parsetree.o: In function `ReOrItem::walk(ParseData*, RegExpr*)':
+/home/kbrown/src/ragel/src/parsetree.cc:2336: undefined reference to `FsmAp::orFsm(FsmCtx*, Key*, int)'
+/home/kbrown/src/ragel/src/parsetree.cc:2347: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsetree.cc:2352: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsetree.cc:2362: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsetree.cc:2363: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:2365: undefined reference to `FsmAp::minimizePartition2()'
+/home/kbrown/src/ragel/src/parsetree.cc:2374: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsetree.cc:2375: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsetree.cc:2377: undefined reference to `FsmAp::minimizePartition2()'
+.libs/libragel_la-parsedata.o: In function `makeFsmKeyHex(char*, InputLoc const&, ParseData*)':
+/home/kbrown/src/ragel/src/parsedata.cc:113: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-parsedata.o: In function `makeFsmKeyDec(char*, InputLoc const&, ParseData*)':
+/home/kbrown/src/ragel/src/parsedata.cc:136: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsedata.cc:141: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsedata.cc:158: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsedata.cc:163: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-parsedata.o: In function `makeBuiltin(BuiltinMachine, ParseData*)':
+/home/kbrown/src/ragel/src/parsedata.cc:263: undefined reference to `FsmAp::dotFsm(FsmCtx*)'
+/home/kbrown/src/ragel/src/parsedata.cc:268: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:276: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:278: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:283: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:284: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:285: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsedata.cc:287: undefined reference to `FsmAp::minimizePartition2()'
+/home/kbrown/src/ragel/src/parsedata.cc:293: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:298: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:299: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:300: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:301: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsedata.cc:303: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsedata.cc:305: undefined reference to `FsmAp::minimizePartition2()'
+/home/kbrown/src/ragel/src/parsedata.cc:311: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:316: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:321: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:322: undefined reference to `FsmAp::concatFsm(FsmCtx*, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:323: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsedata.cc:325: undefined reference to `FsmAp::minimizePartition2()'
+/home/kbrown/src/ragel/src/parsedata.cc:331: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:336: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:341: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:342: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:343: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+.libs/libragel_la-parsedata.o:/home/kbrown/src/ragel/src/parsedata.cc:344: more undefined references to `FsmAp::rangeFsm(FsmCtx*, Key, Key)' follow
+.libs/libragel_la-parsedata.o: In function `makeBuiltin(BuiltinMachine, ParseData*)':
+/home/kbrown/src/ragel/src/parsedata.cc:346: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsedata.cc:348: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsedata.cc:350: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsedata.cc:352: undefined reference to `FsmAp::minimizePartition2()'
+/home/kbrown/src/ragel/src/parsedata.cc:358: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:359: undefined reference to `FsmAp::concatFsm(FsmCtx*, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:360: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsedata.cc:362: undefined reference to `FsmAp::minimizePartition2()'
+/home/kbrown/src/ragel/src/parsedata.cc:368: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:369: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:370: undefined reference to `FsmAp::rangeFsm(FsmCtx*, Key, Key)'
+/home/kbrown/src/ragel/src/parsedata.cc:372: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsedata.cc:374: undefined reference to `FsmAp::unionOp(FsmAp*, FsmAp*, bool)'
+/home/kbrown/src/ragel/src/parsedata.cc:377: undefined reference to `FsmAp::minimizePartition2()'
+/home/kbrown/src/ragel/src/parsedata.cc:382: undefined reference to `FsmAp::lambdaFsm(FsmCtx*)'
+/home/kbrown/src/ragel/src/parsedata.cc:386: undefined reference to `FsmAp::emptyFsm(FsmCtx*)'
+.libs/libragel_la-parsedata.o: In function `ParseData::ParseData(InputData*, std::string, int, InputLoc const&, HostLang const*, MinimizeLevel, MinimizeOpt)':
+/home/kbrown/src/ragel/src/parsedata.cc:445: undefined reference to `FsmCtx::FsmCtx(FsmGbl*)'
+.libs/libragel_la-parsedata.o: In function `ParseData::~ParseData()':
+/home/kbrown/src/ragel/src/parsedata.cc:469: undefined reference to `FsmCtx::~FsmCtx()'
+.libs/libragel_la-parsedata.o: In function `ParseData::unsetObsoleteEntries(FsmAp*)':
+/home/kbrown/src/ragel/src/parsedata.cc:663: undefined reference to `FsmAp::unsetEntry(int)'
+.libs/libragel_la-parsedata.o: In function `ParseData::errorStateLabels(BstSet<NameInst*, CmpOrd<NameInst*>, ResizeExpn> const&)':
+/home/kbrown/src/ragel/src/parsedata.cc:784: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-parsedata.o: In function `ParseData::resolveStateRef(NameRef*, InputLoc&, Action*)':
+/home/kbrown/src/ragel/src/parsedata.cc:807: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsedata.cc:826: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/parsedata.cc:835: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-parsedata.o: In function `ParseData::resolveNameRefs(InlineList*, Action*)':
+/home/kbrown/src/ragel/src/parsedata.cc:856: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-parsedata.o: In function `ParseData::setAlphType(InputLoc const&, HostLang const*, char const*, char const*)':
+/home/kbrown/src/ragel/src/parsedata.cc:974: undefined reference to `findAlphType(HostLang const*, char const*, char const*)'
+.libs/libragel_la-parsedata.o: In function `ParseData::setAlphType(InputLoc const&, HostLang const*, char const*)':
+/home/kbrown/src/ragel/src/parsedata.cc:983: undefined reference to `findAlphType(HostLang const*, char const*)'
+.libs/libragel_la-parsedata.o: In function `ParseData::setLongestMatchData(FsmAp*)':
+/home/kbrown/src/ragel/src/parsedata.cc:1114: undefined reference to `ActionTable::hasAction(Action*)'
+/home/kbrown/src/ragel/src/parsedata.cc:1115: undefined reference to `ActionTable::setAction(int, Action*)'
+/home/kbrown/src/ragel/src/parsedata.cc:1147: undefined reference to `ActionTable::hasAction(Action*)'
+/home/kbrown/src/ragel/src/parsedata.cc:1148: undefined reference to `ActionTable::setAction(int, Action*)'
+.libs/libragel_la-parsedata.o: In function `ParseData::checkBreadth(FsmAp*)':
+/home/kbrown/src/ragel/src/parsedata.cc:1158: undefined reference to `FsmAp::breadthFromEntry(double&, int&, double*, FsmAp*, StateAp*)'
+/home/kbrown/src/ragel/src/parsedata.cc:1167: undefined reference to `FsmAp::breadthFromEntry(double&, int&, double*, FsmAp*, StateAp*)'
+.libs/libragel_la-parsedata.o: In function `ParseData::makeInstance(GraphDictEl*)':
+/home/kbrown/src/ragel/src/parsedata.cc:1226: undefined reference to `FsmGbl::stats()'
+/home/kbrown/src/ragel/src/parsedata.cc:1249: undefined reference to `FsmAp::condCostSearch(FsmAp*)'
+/home/kbrown/src/ragel/src/parsedata.cc:1257: undefined reference to `FsmCtx::finalizeInstance(FsmAp*)'
+.libs/libragel_la-parsedata.o: In function `ParseData::makeAll()':
+/home/kbrown/src/ragel/src/parsedata.cc:1331: undefined reference to `FsmAp::~FsmAp()'
+/home/kbrown/src/ragel/src/parsedata.cc:1348: undefined reference to `FsmAp::globOp(FsmAp**, int)'
+.libs/libragel_la-parsedata.o: In function `ParseData::makeExports()':
+/home/kbrown/src/ragel/src/parsedata.cc:1390: undefined reference to `FsmAp::checkSingleCharMachine()'
+/home/kbrown/src/ragel/src/parsedata.cc:1391: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-parsedata.o: In function `ParseData::prepareMachineGen(GraphDictEl*, HostLang const*)':
+/home/kbrown/src/ragel/src/parsedata.cc:1427: undefined reference to `FsmCtx::analyzeGraph(FsmAp*)'
+/home/kbrown/src/ragel/src/parsedata.cc:1432: undefined reference to `FsmCtx::prepareReduction(FsmAp*)'
+.libs/libragel_la-parsedata.o: In function `ParseData::generateReduced(char const*, CodeStyle, std::ostream&, HostLang const*)':
+/home/kbrown/src/ragel/src/parsedata.cc:1441: undefined reference to `Reducer::make(HostLang const*, HostType const*)'
+.libs/libragel_la-parsedata.o: In function `ParseData::clear()':
+/home/kbrown/src/ragel/src/parsedata.cc:1469: undefined reference to `FsmAp::~FsmAp()'
+.libs/libragel_la-parsedata.o: In function `CodeGenData::clear()':
+/home/kbrown/src/ragel/src/gendata.h:422: undefined reference to `RedFsmAp::~RedFsmAp()'
+.libs/libragel_la-parsedata.o: In function `DList<Action>::empty()':
+/home/kbrown/src/ragel/src/../aapl/dlcommon.h:770: undefined reference to `Action::~Action()'
+.libs/libragel_la-inputdata.o: In function `InputData::createOutputStream()':
+/home/kbrown/src/ragel/src/inputdata.cc:117: undefined reference to `FsmGbl::error()'
+.libs/libragel_la-inputdata.o: In function `InputData::openOutput()':
+/home/kbrown/src/ragel/src/inputdata.cc:138: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:139: undefined reference to `FsmGbl::abortCompile(int)'
+.libs/libragel_la-inputdata.o: In function `InputData::prepareSingleMachine()':
+/home/kbrown/src/ragel/src/inputdata.cc:155: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:155: undefined reference to `operator<<(std::ostream&, exit_object&)'
+/home/kbrown/src/ragel/src/inputdata.cc:161: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:161: undefined reference to `operator<<(std::ostream&, exit_object&)'
+/home/kbrown/src/ragel/src/inputdata.cc:169: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:169: undefined reference to `operator<<(std::ostream&, exit_object&)'
+/home/kbrown/src/ragel/src/inputdata.cc:175: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:175: undefined reference to `operator<<(std::ostream&, exit_object&)'
+.libs/libragel_la-inputdata.o: In function `InputData::verifyWriteHasData(InputItem*)':
+/home/kbrown/src/ragel/src/inputdata.cc:208: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-inputdata.o: In function `InputData::writeOutput(InputItem*)':
+/home/kbrown/src/ragel/src/inputdata.cc:242: undefined reference to `openHostBlock(char, InputData*, std::ostream&, char const*, int)'
+/home/kbrown/src/ragel/src/inputdata.cc:243: undefined reference to `translatedHostData(std::ostream&, std::string const&)'
+.libs/libragel_la-inputdata.o: In function `InputData::processDot()':
+/home/kbrown/src/ragel/src/inputdata.cc:277: undefined reference to `FsmGbl::abortCompile(int)'
+/home/kbrown/src/ragel/src/inputdata.cc:282: undefined reference to `FsmGbl::abortCompile(int)'
+/home/kbrown/src/ragel/src/inputdata.cc:289: undefined reference to `InputData::writeDot(std::ostream&)'
+.libs/libragel_la-inputdata.o: In function `InputData::makeTranslateOutputFileName()':
+/home/kbrown/src/ragel/src/inputdata.cc:402: undefined reference to `fileNameFromStem(char const*, char const*)'
+.libs/libragel_la-inputdata.o: In function `InputData::parseReduce()':
+/home/kbrown/src/ragel/src/inputdata.cc:488: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:488: undefined reference to `operator<<(std::ostream&, exit_object&)'
+.libs/libragel_la-inputdata.o: In function `InputData::usage()':
+/home/kbrown/src/ragel/src/inputdata.cc:555: undefined reference to `FsmGbl::info()'
+/home/kbrown/src/ragel/src/inputdata.cc:642: undefined reference to `FsmGbl::abortCompile(int)'
+.libs/libragel_la-inputdata.o: In function `InputData::version()':
+/home/kbrown/src/ragel/src/inputdata.cc:648: undefined reference to `FsmGbl::info()'
+/home/kbrown/src/ragel/src/inputdata.cc:650: undefined reference to `FsmGbl::abortCompile(int)'
+.libs/libragel_la-inputdata.o: In function `InputData::showHostLangNames()':
+/home/kbrown/src/ragel/src/inputdata.cc:655: undefined reference to `FsmGbl::info()'
+/home/kbrown/src/ragel/src/inputdata.cc:662: undefined reference to `FsmGbl::abortCompile(int)'
+.libs/libragel_la-inputdata.o: In function `InputData::showHostLangArgs()':
+/home/kbrown/src/ragel/src/inputdata.cc:667: undefined reference to `FsmGbl::info()'
+/home/kbrown/src/ragel/src/inputdata.cc:674: undefined reference to `FsmGbl::abortCompile(int)'
+.libs/libragel_la-inputdata.o: In function `InputData::showFrontends()':
+/home/kbrown/src/ragel/src/inputdata.cc:679: undefined reference to `FsmGbl::info()'
+/home/kbrown/src/ragel/src/inputdata.cc:686: undefined reference to `FsmGbl::abortCompile(int)'
+.libs/libragel_la-inputdata.o: In function `InputData::showBackends()':
+/home/kbrown/src/ragel/src/inputdata.cc:691: undefined reference to `FsmGbl::info()'
+/home/kbrown/src/ragel/src/inputdata.cc:693: undefined reference to `FsmGbl::abortCompile(int)'
+.libs/libragel_la-inputdata.o: In function `InputData::parseArgs(int, char const**)':
+/home/kbrown/src/ragel/src/inputdata.cc:714: undefined reference to `ParamCheck::ParamCheck(char const*, int, char const**)'
+/home/kbrown/src/ragel/src/inputdata.cc:729: undefined reference to `ParamCheck::check()'
+/home/kbrown/src/ragel/src/inputdata.cc:740: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:742: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:772: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:772: undefined reference to `operator<<(std::ostream&, exit_object&)'
+/home/kbrown/src/ragel/src/inputdata.cc:779: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:779: undefined reference to `operator<<(std::ostream&, exit_object&)'
+/home/kbrown/src/ragel/src/inputdata.cc:792: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:794: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:804: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:806: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:815: undefined reference to `FsmGbl::error()'
+.libs/libragel_la-inputdata.o:/home/kbrown/src/ragel/src/inputdata.cc:879: more undefined references to `FsmGbl::error()' follow
+.libs/libragel_la-inputdata.o: In function `InputData::parseArgs(int, char const**)':
+/home/kbrown/src/ragel/src/inputdata.cc:901: undefined reference to `operator<<(std::ostream&, exit_object&)'
+/home/kbrown/src/ragel/src/inputdata.cc:945: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:959: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:961: undefined reference to `FsmGbl::abortCompile(int)'
+/home/kbrown/src/ragel/src/inputdata.cc:970: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:972: undefined reference to `FsmGbl::abortCompile(int)'
+/home/kbrown/src/ragel/src/inputdata.cc:986: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:988: undefined reference to `FsmGbl::abortCompile(int)'
+/home/kbrown/src/ragel/src/inputdata.cc:1003: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:1009: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:1011: undefined reference to `FsmGbl::error()'
+.libs/libragel_la-inputdata.o: In function `InputData::loadHistogram()':
+/home/kbrown/src/ragel/src/inputdata.cc:1029: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:1029: undefined reference to `operator<<(std::ostream&, exit_object&)'
+/home/kbrown/src/ragel/src/inputdata.cc:1037: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:1038: undefined reference to `operator<<(std::ostream&, exit_object&)'
+/home/kbrown/src/ragel/src/inputdata.cc:1047: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:1048: undefined reference to `operator<<(std::ostream&, exit_object&)'
+/home/kbrown/src/ragel/src/inputdata.cc:1053: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:1053: undefined reference to `operator<<(std::ostream&, exit_object&)'
+.libs/libragel_la-inputdata.o: In function `InputData::checkArgs()':
+/home/kbrown/src/ragel/src/inputdata.cc:1074: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:1078: undefined reference to `FsmGbl::abortCompile(int)'
+/home/kbrown/src/ragel/src/inputdata.cc:1084: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:1085: undefined reference to `operator<<(std::ostream&, exit_object&)'
+.libs/libragel_la-inputdata.o: In function `InputData::readInput(char const*)':
+/home/kbrown/src/ragel/src/inputdata.cc:1104: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:1110: undefined reference to `FsmGbl::error()'
+/home/kbrown/src/ragel/src/inputdata.cc:1117: undefined reference to `FsmGbl::error()'
+.libs/libragel_la-inputdata.o: In function `InputData::main(int, char const**)':
+/home/kbrown/src/ragel/src/inputdata.cc:1136: undefined reference to `FsmGbl::abortCompile(int)'
+.libs/libragel_la-inputdata.o: In function `InputData::rlhcRun(int, char const**)':
+/home/kbrown/src/ragel/src/inputdata.cc:1150: undefined reference to `colm_new_program'
+/home/kbrown/src/ragel/src/inputdata.cc:1151: undefined reference to `colm_set_debug'
+/home/kbrown/src/ragel/src/inputdata.cc:1152: undefined reference to `colm_run_program'
+/home/kbrown/src/ragel/src/inputdata.cc:1153: undefined reference to `colm_delete_program'
+.libs/libragel_la-inputdata.o: In function `InputData::rlhcMain(int, char const**)':
+/home/kbrown/src/ragel/src/inputdata.cc:1171: undefined reference to `FsmGbl::abortCompile(int)'
+.libs/libragel_la-inputdata.o:inputdata.cc:(.rdata$.refptr.errorFormat[.refptr.errorFormat]+0x0): undefined reference to `errorFormat'
+.libs/libragel_la-inputdata.o:inputdata.cc:(.rdata$.refptr.hostLangC[.refptr.hostLangC]+0x0): undefined reference to `hostLangC'
+.libs/libragel_la-inputdata.o:inputdata.cc:(.rdata$.refptr.hostLangs[.refptr.hostLangs]+0x0): undefined reference to `hostLangs'
+.libs/libragel_la-inputdata.o:inputdata.cc:(.rdata$.refptr.numHostLangs[.refptr.numHostLangs]+0x0): undefined reference to `numHostLangs'
+.libs/libragel_la-inputdata.o:inputdata.cc:(.rdata$.refptr.endp[.refptr.endp]+0x0): undefined reference to `endp'
+.libs/libragel_la-inputdata.o:inputdata.cc:(.rdata$.refptr._ZTV13output_filter[.refptr._ZTV13output_filter]+0x0): undefined reference to `vtable for output_filter'
+.libs/libragel_la-reducer.o: In function `TopLevel::tryMachineDef(InputLoc const&, std::string, MachineDef*, bool)':
+/home/kbrown/src/ragel/src/reducer.cc:67: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-reducer.o: In function `TopLevel::tryLongScan(InputLoc const&, char const*)':
+/home/kbrown/src/ragel/src/reducer.cc:80: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/reducer.cc:86: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-reducer.o: In function `TopLevel::include(InputLoc const&, bool, std::string, std::string)':
+/home/kbrown/src/ragel/src/reducer.cc:129: undefined reference to `FsmGbl::error(InputLoc const&)'
+/home/kbrown/src/ragel/src/reducer.cc:132: undefined reference to `FsmGbl::error(InputLoc const&)'
+.libs/libragel_la-reducer.o: In function `TopLevel::reduceFile(char const*, char const*)':
+/home/kbrown/src/ragel/src/reducer.cc:212: undefined reference to `colm_new_program'
+/home/kbrown/src/ragel/src/reducer.cc:213: undefined reference to `colm_set_debug'
+/home/kbrown/src/ragel/src/reducer.cc:214: undefined reference to `colm_set_reduce_ctx'
+/home/kbrown/src/ragel/src/reducer.cc:215: undefined reference to `colm_run_program'
+/home/kbrown/src/ragel/src/reducer.cc:216: undefined reference to `colm_extract_fns'
+/home/kbrown/src/ragel/src/reducer.cc:219: undefined reference to `colm_error'
+/home/kbrown/src/ragel/src/reducer.cc:222: undefined reference to `FsmGbl::error_plain()'
+/home/kbrown/src/ragel/src/reducer.cc:225: undefined reference to `colm_delete_program'
+.libs/libragel_la-reducer.o:reducer.cc:(.rdata$.refptr.rl_parse[.refptr.rl_parse]+0x0): undefined reference to `rl_parse'
+
+# Add "libragel_la_LIBADD = libfsm.la $(COLM_LD)" to Makefile.am, move
+# parse.c to nodist_libragel_la_Sources.
+
+$ make
+Making all in src
+libtool: link: g++ -shared -nostdlib /usr/lib/gcc/x86_64-pc-cygwin/7.3.0/crtbeginS.o  .libs/libragel_la-parsetree.o .libs/libragel_la-parsedata.o .libs/libragel_la-inputdata.o .libs/libragel_la-load.o .libs/libragel_la-reducer.o .libs/libragel_la-parse.o   ./.libs/libfsm.dll.a -lcolm -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0 -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../../../x86_64-pc-cygwin/lib/../lib -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../../../x86_64-pc-cygwin/lib -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../.. -lstdc++ -lgcc_s -lgcc -lcygwin -ladvapi32 -lshell32 -luser32 -lkernel32 -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-cygwin/7.3.0/crtend.o  -g   -o .libs/cygragel-0.dll -Wl,--enable-auto-image-base -Xlinker --out-implib -Xlinker .libs/libragel.dll.a
+.libs/libragel_la-parse.o:parse.c:(.data+0x5fda0): undefined reference to `rl_parse_commit_reduce_forward'
+.libs/libragel_la-parse.o:parse.c:(.data+0x5fda8): undefined reference to `rl_parse_commit_union_sz'
+.libs/libragel_la-parse.o:parse.c:(.data+0x5fdb0): undefined reference to `rl_parse_init_need'
+.libs/libragel_la-parse.o:parse.c:(.data+0x5fdb8): undefined reference to `rl_parse_reducer_need_tok'
+.libs/libragel_la-parse.o:parse.c:(.data+0x5fdc0): undefined reference to `rl_parse_reducer_need_ign'
+.libs/libragel_la-parse.o:parse.c:(.data+0x5fdc8): undefined reference to `rl_parse_read_reduce'
+
+# Move rlreduce.cc to nodist_libragel_la_SOURCES
+$ make
+[Build succeeds.]
+
+# Now install ragel and rebuild
+$ make clean && ./configure --enable-shared --disable-static && make
+[...]
+libtool: link: g++ -shared -nostdlib /usr/lib/gcc/x86_64-pc-cygwin/7.3.0/crtbeginS.o  .libs/libragel_la-parsetree.o .libs/libragel_la-parsedata.o .libs/libragel_la-inputdata.o .libs/libragel_la-load.o .libs/libragel_la-reducer.o .libs/libragel_la-parse.o .libs/libragel_la-rlreduce.o   ./.libs/libfsm.dll.a -lcolm -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0 -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../../../x86_64-pc-cygwin/lib/../lib -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../../../x86_64-pc-cygwin/lib -L/usr/lib/gcc/x86_64-pc-cygwin/7.3.0/../../.. -lstdc++ -lgcc_s -lgcc -lcygwin -ladvapi32 -lshell32 -luser32 -lkernel32 -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-cygwin/7.3.0/crtend.o  -g   -o .libs/cygragel-0.dll -Wl,--enable-auto-image-base -Xlinker --out-implib -Xlinker .libs/libragel.dll.a
+.libs/libragel_la-inputdata.o: In function `InputData::checkLastRef(InputItem*)':
+/home/kbrown/src/ragel/src/inputdata.cc:313: undefined reference to `Parser6::terminateParser()'
+/home/kbrown/src/ragel/src/inputdata.cc:313:(.text+0xf5c): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `Parser6::terminateParser()'
+.libs/libragel_la-inputdata.o: In function `InputData::terminateAllParsers()':
+/home/kbrown/src/ragel/src/inputdata.cc:377: undefined reference to `Parser6::terminateParser()'
+/home/kbrown/src/ragel/src/inputdata.cc:377:(.text+0x11d1): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `Parser6::terminateParser()'
+.libs/libragel_la-inputdata.o: In function `InputData::parseKelbt()':
+/home/kbrown/src/ragel/src/inputdata.cc:427: undefined reference to `Scanner::do_scan()'
+/home/kbrown/src/ragel/src/inputdata.cc:427:(.text+0x145a): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `Scanner::do_scan()'
+/home/kbrown/src/ragel/src/inputdata.cc:435: undefined reference to `Scanner::do_scan()'
+/home/kbrown/src/ragel/src/inputdata.cc:435:(.text+0x14ea): relocation truncated to fit: R_X86_64_PC32 against undefined symbol `Scanner::do_scan()'
+
+# Move rlparse.cc and rlscan.cc to nodist_libragel_la_SOURCES
+$ make
+[Build succeeds]
