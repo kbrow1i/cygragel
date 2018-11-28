@@ -7,8 +7,8 @@ inherit vim
 HOMEPAGE="http://www.colm.net/open-source/${NAME}"
 SRC_URI="https://www.colm.net/files/${NAME}/${NAME}-${VERSION}.tar.gz"
 PATCH_URI="0001-turn-on-no-undefined-in-lib-linking-and-fix-ref-to-r.patch"
-PATCH_URI+=" 0001-Fix-no-undefined-syntax.patch"
-PATCH_URI+=" 0001-initialize-InputData-frontendSections.patch"
+PATCH_URI+=" 0002-fix-InputData-constructor.patch"
+PATCH_URI+=" 0003-add-libtool-s-no-undefined-flag.patch"
 
 CATEGORY="Devel"
 SUMMARY="Finite state machine compiler"
@@ -31,7 +31,8 @@ libragel_devel_CONTENTS="usr/include usr/lib"
 
 DEPEND="colm libcolm-devel"
 
-# Building with ragel and kelbt is no longer required:
+# Building with ragel and kelbt is no longer required, and it leads to
+# undefined references:
 # http://www.colm.net/pipermail/ragel-users/2018-November/003570.html
 CYGCONF_ARGS="--without-ragel --without-kelbt"
 

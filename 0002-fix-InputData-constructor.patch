@@ -1,8 +1,9 @@
-From 784e646194ea0ae9671fa14c03652d4a31d79efe Mon Sep 17 00:00:00 2001
+From 140f7e295b60a20a26c51a8fd007de1b9f3761b5 Mon Sep 17 00:00:00 2001
 From: Ken Brown <kbrown@cornell.edu>
-Date: Tue, 27 Nov 2018 18:19:18 -0500
-Subject: [PATCH] initialize InputData::frontendSections
+Date: Wed, 28 Nov 2018 00:43:21 +0000
+Subject: [PATCH 2/3] fix InputData constructor
 
+Initialize InputData::frontendSections.
 ---
  src/inputdata.h | 1 +
  1 file changed, 1 insertion(+)
