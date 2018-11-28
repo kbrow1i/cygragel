@@ -1,12 +1,14 @@
 NAME="ragel"
 VERSION=7.0.0.11
-RELEASE=2
+RELEASE=3
 
 inherit vim
 
 HOMEPAGE="http://www.colm.net/open-source/${NAME}"
 SRC_URI="https://www.colm.net/files/${NAME}/${NAME}-${VERSION}.tar.gz"
-PATCH_URI="ragel-no_undefined.patch"
+PATCH_URI="0001-turn-on-no-undefined-in-lib-linking-and-fix-ref-to-r.patch"
+PATCH_URI+=" 0001-Fix-no-undefined-syntax.patch"
+PATCH_URI+=" 0001-initialize-InputData-frontendSections.patch"
 
 CATEGORY="Devel"
 SUMMARY="Finite state machine compiler"
@@ -29,18 +31,9 @@ libragel_devel_CONTENTS="usr/include usr/lib"
 
 DEPEND="colm libcolm-devel"
 
-# The build of a fully-functional ragel package requires some version
-# of ragel.exe.  Until that's available, we can build and install a
-# less functional package for bootstrapping.
-
-# The following line should be commented out for the initial build,
-# and uncommented after the bootstrap ragel is installed.
-
-bootstrap=1
-if defined bootstrap
-then
-    DEPEND+=" ragel kelbt"
-fi
+# Building with ragel and kelbt is no longer required:
+# http://www.colm.net/pipermail/ragel-users/2018-November/003570.html
+CYGCONF_ARGS="--without-ragel --without-kelbt"
 
 src_compile() {
     cd ${S}

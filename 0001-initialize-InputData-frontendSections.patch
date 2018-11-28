@@ -1,0 +1,24 @@
+From 784e646194ea0ae9671fa14c03652d4a31d79efe Mon Sep 17 00:00:00 2001
+From: Ken Brown <kbrown@cornell.edu>
+Date: Tue, 27 Nov 2018 18:19:18 -0500
+Subject: [PATCH] initialize InputData::frontendSections
+
+---
+ src/inputdata.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/inputdata.h b/src/inputdata.h
+index ba263a59..44b06b52 100644
+--- a/src/inputdata.h
++++ b/src/inputdata.h
+@@ -172,6 +172,7 @@ struct InputData
+ 	InputData( const HostLang *hostLang, struct colm_sections *frontendSections, struct colm_sections *rlhcSections )
+ 	: 
+ 		FsmGbl(hostLang),
++		frontendSections(frontendSections),
+ 		rlhcSections(rlhcSections),
+ 		inputFileName(0),
+ 		outputFileName(0),
+-- 
+2.17.0
+

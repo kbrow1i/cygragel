@@ -1,0 +1,408 @@
+From 05b49b1a09087ef9817fae141e970309bfc54f11 Mon Sep 17 00:00:00 2001
+From: Adrian Thurston <thurston@colm.net>
+Date: Sun, 25 Nov 2018 10:12:20 -0300
+Subject: [PATCH] turn on --no-undefined in lib linking and fix ref to rl_parse
+
+Pass the frontend colm_sections pointer to input data just like we do the
+optional backend. This eliminates the undefined reference to rl_parse from
+libragel.la.
+
+http://www.colm.net/pipermail/ragel-users/2018-November/003560.html
+---
+ configure.ac            | 2 +-
+ src/Makefile.am         | 6 ++++++
+ src/host-asm/main.cc    | 4 +++-
+ src/host-c/main.cc      | 3 ++-
+ src/host-crack/main.cc  | 3 ++-
+ src/host-csharp/main.cc | 3 ++-
+ src/host-d/main.cc      | 3 ++-
+ src/host-go/main.cc     | 3 ++-
+ src/host-java/main.cc   | 3 ++-
+ src/host-js/main.cc     | 3 ++-
+ src/host-julia/main.cc  | 3 ++-
+ src/host-ocaml/main.cc  | 3 ++-
+ src/host-ruby/main.cc   | 3 ++-
+ src/host-rust/main.cc   | 4 ++--
+ src/inputdata.cc        | 2 +-
+ src/inputdata.h         | 3 ++-
+ src/main.cc             | 4 +++-
+ src/reducer.cc          | 3 +--
+ src/reducer.h           | 4 +++-
+ 19 files changed, 42 insertions(+), 20 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 8294d3e1..b7c71157 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -126,7 +126,7 @@ if [test "x$build_program" = "xyes"]; then
+ 				CPPFLAGS="${CPPFLAGS} -I$withval/src/include"
+ 				LDFLAGS="${LDFLAGS} -L$withval/src"
+ 				COLM="$withval/src/colm"
+-				COLM_LD="$withval/src/.libs/libcolm.a"
++				COLM_LD="$withval/src/libcolm.la"
+ 				COLM_LIBDEP="$COLM_LD"
+ 				COLM_BINDEP="$COLM"
+ 			else
+diff --git a/src/Makefile.am b/src/Makefile.am
+index e0861092..a79b2610 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -56,6 +56,8 @@ dist_libfsm_la_SOURCES = \
+ nodist_libfsm_la_SOURCES = \
+ 	version.h
+ 
++libfsm_la_LDFLAGS = -Wl,--no-undefined
++
+ #
+ # libragel: ragel program minus host-specific code
+ #
+@@ -65,6 +67,10 @@ dist_libragel_la_SOURCES = \
+ 	parsedata.h parsetree.h inputdata.h pcheck.h reducer.h rlscan.h load.h \
+ 	parsetree.cc longest.cc parsedata.cc inputdata.cc load.cc reducer.cc
+ 
++libragel_la_LDFLAGS = -Wl,--no-undefined
++libragel_la_LIBADD = libfsm.la $(COLM_LD)
++
++
+ #
+ # ragel program.
+ #
+diff --git a/src/host-asm/main.cc b/src/host-asm/main.cc
+index 1c1eb1dd..c5d6d6c5 100644
+--- a/src/host-asm/main.cc
++++ b/src/host-asm/main.cc
+@@ -23,9 +23,11 @@
+ #include "inputdata.h"
+ #include "asm.h"
+ 
++extern struct colm_sections rl_parse;
++
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangAsm );
++	InputData id( &hostLangAsm, &rl_parse, 0 );
+ 	return id.main( argc, argv );
+ }
+ 
+diff --git a/src/host-c/main.cc b/src/host-c/main.cc
+index 585af008..288b3e89 100644
+--- a/src/host-c/main.cc
++++ b/src/host-c/main.cc
+@@ -23,6 +23,7 @@
+ #include "inputdata.h"
+ #include "asm.h"
+ 
++extern struct colm_sections rl_parse;
+ extern struct colm_sections rlhc;
+ 
+ const HostLang hostLangC_translated = {
+@@ -42,7 +43,7 @@ const HostLang hostLangC_translated = {
+ 
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangC_translated, &rlhc );
++	InputData id( &hostLangC_translated, &rl_parse, &rlhc );
+ 	return id.rlhcMain( argc, argv );
+ }
+ 
+diff --git a/src/host-crack/main.cc b/src/host-crack/main.cc
+index 99cd15f1..3fcdd380 100644
+--- a/src/host-crack/main.cc
++++ b/src/host-crack/main.cc
+@@ -22,6 +22,7 @@
+ 
+ #include "inputdata.h"
+ 
++extern struct colm_sections rl_parse;
+ extern struct colm_sections rlhc;
+ 
+ /*
+@@ -58,6 +59,6 @@ const HostLang hostLangCrack = {
+ 
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangCrack, &rlhc );
++	InputData id( &hostLangCrack, &rl_parse, &rlhc );
+ 	return id.rlhcMain( argc, argv );
+ }
+diff --git a/src/host-csharp/main.cc b/src/host-csharp/main.cc
+index 54630881..bbf17d72 100644
+--- a/src/host-csharp/main.cc
++++ b/src/host-csharp/main.cc
+@@ -22,6 +22,7 @@
+ 
+ #include "inputdata.h"
+ 
++extern struct colm_sections rl_parse;
+ extern struct colm_sections rlhc;
+ 
+ /*
+@@ -69,6 +70,6 @@ const HostLang hostLangCSharp = {
+ 
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangCSharp, &rlhc );
++	InputData id( &hostLangCSharp, &rl_parse, &rlhc );
+ 	return id.rlhcMain( argc, argv );
+ }
+diff --git a/src/host-d/main.cc b/src/host-d/main.cc
+index a7fca90c..9ef65383 100644
+--- a/src/host-d/main.cc
++++ b/src/host-d/main.cc
+@@ -22,6 +22,7 @@
+ 
+ #include "inputdata.h"
+ 
++extern struct colm_sections rl_parse;
+ extern struct colm_sections rlhc;
+ 
+ /*
+@@ -68,6 +69,6 @@ const HostLang hostLangD = {
+ 
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangD, &rlhc );
++	InputData id( &hostLangD, &rl_parse, &rlhc );
+ 	return id.rlhcMain( argc, argv );
+ }
+diff --git a/src/host-go/main.cc b/src/host-go/main.cc
+index 36a0e398..ed04bc57 100644
+--- a/src/host-go/main.cc
++++ b/src/host-go/main.cc
+@@ -22,6 +22,7 @@
+ 
+ #include "inputdata.h"
+ 
++extern struct colm_sections rl_parse;
+ extern struct colm_sections rlhc;
+ 
+ /*
+@@ -65,6 +66,6 @@ const HostLang hostLangGo = {
+ 
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangGo, &rlhc );
++	InputData id( &hostLangGo, &rl_parse, &rlhc );
+ 	return id.rlhcMain( argc, argv );
+ }
+diff --git a/src/host-java/main.cc b/src/host-java/main.cc
+index 254ed327..40e248e7 100644
+--- a/src/host-java/main.cc
++++ b/src/host-java/main.cc
+@@ -22,6 +22,7 @@
+ 
+ #include "inputdata.h"
+ 
++extern struct colm_sections rl_parse;
+ extern struct colm_sections rlhc;
+ 
+ /*
+@@ -59,6 +60,6 @@ const HostLang hostLangJava = {
+ 
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangJava, &rlhc );
++	InputData id( &hostLangJava, &rl_parse, &rlhc );
+ 	return id.rlhcMain( argc, argv );
+ }
+diff --git a/src/host-js/main.cc b/src/host-js/main.cc
+index 1e9c97b8..6b165f72 100644
+--- a/src/host-js/main.cc
++++ b/src/host-js/main.cc
+@@ -22,6 +22,7 @@
+ 
+ #include "inputdata.h"
+ 
++extern struct colm_sections rl_parse;
+ extern struct colm_sections rlhc;
+ 
+ /*
+@@ -62,6 +63,6 @@ const HostLang hostLangJS = {
+ 
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangJS, &rlhc );
++	InputData id( &hostLangJS, &rl_parse, &rlhc );
+ 	return id.rlhcMain( argc, argv );
+ }
+diff --git a/src/host-julia/main.cc b/src/host-julia/main.cc
+index e98c04e5..de1ee698 100644
+--- a/src/host-julia/main.cc
++++ b/src/host-julia/main.cc
+@@ -22,6 +22,7 @@
+ 
+ #include "inputdata.h"
+ 
++extern struct colm_sections rl_parse;
+ extern struct colm_sections rlhc;
+ 
+ /*
+@@ -55,6 +56,6 @@ const HostLang hostLangJulia = {
+ 
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangJulia, &rlhc );
++	InputData id( &hostLangJulia, &rl_parse, &rlhc );
+ 	return id.rlhcMain( argc, argv );
+ }
+diff --git a/src/host-ocaml/main.cc b/src/host-ocaml/main.cc
+index 120fbb8e..84439335 100644
+--- a/src/host-ocaml/main.cc
++++ b/src/host-ocaml/main.cc
+@@ -22,6 +22,7 @@
+ 
+ #include "inputdata.h"
+ 
++extern struct colm_sections rl_parse;
+ extern struct colm_sections rlhc;
+ 
+ /*
+@@ -54,6 +55,6 @@ const HostLang hostLangOCaml = {
+ 
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangOCaml, &rlhc );
++	InputData id( &hostLangOCaml, &rl_parse, &rlhc );
+ 	return id.rlhcMain( argc, argv );
+ }
+diff --git a/src/host-ruby/main.cc b/src/host-ruby/main.cc
+index f3955ea7..cf01bc88 100644
+--- a/src/host-ruby/main.cc
++++ b/src/host-ruby/main.cc
+@@ -22,6 +22,7 @@
+ 
+ #include "inputdata.h"
+ 
++extern struct colm_sections rl_parse;
+ extern struct colm_sections rlhc;
+ 
+ /* What are the appropriate types for ruby? */
+@@ -53,6 +54,6 @@ static const HostLang hostLangRuby = {
+ 
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangRuby, &rlhc );
++	InputData id( &hostLangRuby, &rl_parse, &rlhc );
+ 	return id.rlhcMain( argc, argv );
+ }
+diff --git a/src/host-rust/main.cc b/src/host-rust/main.cc
+index 6e8c8555..9befc500 100644
+--- a/src/host-rust/main.cc
++++ b/src/host-rust/main.cc
+@@ -22,6 +22,7 @@
+ 
+ #include "inputdata.h"
+ 
++extern struct colm_sections rl_parse;
+ extern struct colm_sections rlhc;
+ 
+ /*
+@@ -53,9 +54,8 @@ const HostLang hostLangRust = {
+ };
+ 
+ 
+-
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangRust, &rlhc );
++	InputData id( &hostLangRust, &rl_parse, &rlhc );
+ 	return id.rlhcMain( argc, argv );
+ }
+diff --git a/src/inputdata.cc b/src/inputdata.cc
+index ed46cf35..4b8627a5 100644
+--- a/src/inputdata.cc
++++ b/src/inputdata.cc
+@@ -476,7 +476,7 @@ bool InputData::parseReduce()
+ 	 * Colm-based reduction parser introduced in ragel 7. 
+ 	 */
+ 
+-	TopLevel *topLevel = new TopLevel( this, hostLang,
++	TopLevel *topLevel = new TopLevel( frontendSections, this, hostLang,
+ 			minimizeLevel, minimizeOpt );
+ 
+ 	/* Check input file. File is actually opened by colm code. We don't
+diff --git a/src/inputdata.h b/src/inputdata.h
+index 030905b3..ba263a59 100644
+--- a/src/inputdata.h
++++ b/src/inputdata.h
+@@ -169,7 +169,7 @@ struct InputData
+ :
+ 	public FsmGbl
+ {
+-	InputData( const HostLang *hostLang, struct colm_sections *rlhcSections = 0 )
++	InputData( const HostLang *hostLang, struct colm_sections *frontendSections, struct colm_sections *rlhcSections )
+ 	: 
+ 		FsmGbl(hostLang),
+ 		rlhcSections(rlhcSections),
+@@ -215,6 +215,7 @@ struct InputData
+ 	void showFrontends();
+ 	void showBackends();
+ 
++	struct colm_sections *frontendSections;
+ 	struct colm_sections *rlhcSections;
+ 	std::string dirName;
+ 
+diff --git a/src/main.cc b/src/main.cc
+index 1b8c2989..6c6865a1 100644
+--- a/src/main.cc
++++ b/src/main.cc
+@@ -22,8 +22,10 @@
+ 
+ #include "inputdata.h"
+ 
++extern struct colm_sections rl_parse;
++
+ int main( int argc, const char **argv )
+ {
+-	InputData id( &hostLangC );
++	InputData id( &hostLangC, &rl_parse, 0 );
+ 	return id.main( argc, argv );
+ }
+diff --git a/src/reducer.cc b/src/reducer.cc
+index c9a5b29d..c671bba0 100644
+--- a/src/reducer.cc
++++ b/src/reducer.cc
+@@ -29,7 +29,6 @@
+ 
+ using std::endl;
+ using std::ifstream;
+-extern colm_sections rl_parse;
+ 
+ void TopLevel::loadMachineName( string data )
+ {
+@@ -209,7 +208,7 @@ void TopLevel::reduceFile( const char *cmd, const char *inputFileName )
+ 	const char *prevCurFileName = curFileName;
+ 	curFileName = inputFileName;
+ 
+-	colm_program *program = colm_new_program( &rl_parse );
++	colm_program *program = colm_new_program( frontendSections );
+ 	colm_set_debug( program, 0 );
+ 	colm_set_reduce_ctx( program, this );
+ 	colm_run_program( program, baseN + id->includePaths.length(), argv );
+diff --git a/src/reducer.h b/src/reducer.h
+index bfc663e3..0d0f1af1 100644
+--- a/src/reducer.h
++++ b/src/reducer.h
+@@ -51,9 +51,10 @@ struct SectionPass;
+ 
+ struct TopLevel
+ {
+-	TopLevel( InputData *id, const HostLang *hostLang,
++	TopLevel( struct colm_sections *frontendSections, InputData *id, const HostLang *hostLang,
+ 			MinimizeLevel minimizeLevel, MinimizeOpt minimizeOpt )
+ 	:
++		frontendSections(frontendSections),
+ 		id(id),
+ 		section(0),
+ 		pd(0),
+@@ -74,6 +75,7 @@ struct TopLevel
+ 		exportContext.append( false );
+ 	}
+ 
++	struct colm_sections *frontendSections;
+ 	InputData *id;
+ 	Section *section;
+ 	SectionPass *sectionPass;
+-- 
+2.17.0
+
